@@ -30,7 +30,7 @@ export default function Header({ scroll }: any) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setCategories(data);
+        setCategories(data.results);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -115,6 +115,9 @@ export default function Header({ scroll }: any) {
               <ul className="d-flex justify-content-between">
                 <li className="current-menu-item">
                   <Link href="/">Home</Link>
+                </li>
+                <li>
+                  <Link href="/article">Articles</Link>
                 </li>
                 <li className="menu-item-has-children">
                   <Link href="/categories">Categories</Link>

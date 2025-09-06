@@ -47,7 +47,7 @@ export default function Section1({ featured, trending }: { featured: any, trendi
                       <Link href={`/author/${featured.mainArticle.author?.id}`}>{featured.mainArticle.author?.user.first_name}</Link> in <Link href={`/category/${featured.mainArticle.category?.slug}`}>{featured.mainArticle.category?.name}</Link>
                       <br />
                       <span>
-                        {moment(featured.mainArticle.published_at).format("MMM DD, YYYY")}
+                        {moment(featured.mainArticle.published_date).format("MMM DD, YYYY")}
                       </span>
                       <span className="middotDivider" />
                       <span className="readingTime" title={featured.mainArticle.read_time}>
@@ -60,7 +60,7 @@ export default function Section1({ featured, trending }: { featured: any, trendi
                       </span>
                     </div>
                   </article>
-                  <Link className="btn btn-green d-inline-block mb-4 mb-md-0" href="/archive">
+                  <Link className="btn btn-green d-inline-block mb-4 mb-md-0" href="/article">
                     All Featured
                   </Link>
                 </div>
@@ -87,7 +87,7 @@ export default function Section1({ featured, trending }: { featured: any, trendi
                             <Link href={`/article/${article.slug}`}>{article.title}</Link>
                           </h5>
                           <div className="entry-meta align-items-center">
-                            <Link href={`/author/${article.author.id}`}>{article.author.user.first_name}</Link> in <Link href={`/archive/${article.category.slug}`}>{article.category.name}</Link>
+                            <Link href={`/author/${article.author.id}`}>{article.author.user.first_name}</Link> in <Link href={`/article/${article.category.slug}`}>{article.category.name}</Link>
                             <br />
                             <span>
                               {moment(article.published_at).format("MMM DD")}
@@ -119,7 +119,7 @@ export default function Section1({ featured, trending }: { featured: any, trendi
                 <ol>
                   {trending.articles.map((article : any, index : number) => (
                     <li key={index} className="d-flex">
-                      <div className="post-count">{article.id}</div>
+                      <div className="post-count">{index + 1}</div>
                       <div className="post-content">
                         <h5 className="entry-title mb-3">
                           <Link href={`/article/${article.slug}`}>{article.title}</Link>
@@ -144,7 +144,7 @@ export default function Section1({ featured, trending }: { featured: any, trendi
                     </li>
                   ))}
                 </ol>
-                <Link className="link-green" href="/archive">
+                <Link className="link-green" href="/article">
                   See all trending
                   <svg className="svgIcon-use" width={19} height={19}>
                     <path d="M7.6 5.138L12.03 9.5 7.6 13.862l-.554-.554L10.854 9.5 7.046 5.692" fillRule="evenodd" />

@@ -45,7 +45,7 @@ export default function MobileMenu({ isMobileMenu, handleMobileMenu }: MobileMen
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setCategories(data);
+        setCategories(data.results);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -126,12 +126,15 @@ export default function MobileMenu({ isMobileMenu, handleMobileMenu }: MobileMen
               <li className="current-menu-item">
                 <Link href="/">Home</Link>
               </li>
+              <li>
+                <Link href="/article">Articles</Link>
+              </li>
               <li className={`menu-item-has-children ${isAccordion == 1 ? "open-submenu" : ""}`}>
                 <Link href="#" onClick={() => handleAccordion(1)}>
                   Categories
                 </Link>
                 <ul className="sub-menu">
-                  {categories.map((category) => (
+                  {categories?.map((category) => (
                     <li key={category.id}>
                       <Link href={`/categories/${category.id}`}>{category.name}</Link>
                     </li>
