@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Image from 'next/image';
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
+
+
 interface MobileMenuProps {
   isMobileMenu: boolean;
   handleMobileMenu: () => void;
@@ -13,6 +16,8 @@ interface MobileMenuProps {
 export default function MobileMenu({ isMobileMenu, handleMobileMenu }: MobileMenuProps) {
   const [isAccordion, setIsAccordion] = useState<number | null>(null);
   const pathname = usePathname();
+  const [categories, setCategories] = useState<any[]>([]);
+
 
   // Dark/Light
   const [isDark, setDark] = useState<boolean>(false);
@@ -30,6 +35,23 @@ export default function MobileMenu({ isMobileMenu, handleMobileMenu }: MobileMen
       handleMobileMenu();
     }
   }, [pathname]);
+
+  // get the categories from the api
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(`${APP_URL}/blog/categories/`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   return (
     <>
@@ -92,7 +114,7 @@ export default function MobileMenu({ isMobileMenu, handleMobileMenu }: MobileMen
           <div className="mobi-menu__logo">
             <h1 className="logo navbar-brand">
               <Link href="/" className="logo">
-                Merinda
+                TAOTM
               </Link>
             </h1>
           </div>
@@ -109,26 +131,19 @@ export default function MobileMenu({ isMobileMenu, handleMobileMenu }: MobileMen
                   Categories
                 </Link>
                 <ul className="sub-menu">
-                  <li>
-                    <Link href="/categories">Politics</Link>
-                  </li>
-                  <li>
-                    <Link href="/archive">Health</Link>
-                  </li>
-                  <li>
-                    <Link href="/categories">Design</Link>
-                  </li>
+                  {categories.map((category) => (
+                    <li key={category.id}>
+                      <Link href={`/categories/${category.id}`}>{category.name}</Link>
+                    </li>
+                  ))}
                 </ul>
                 <span className="sub-menu-toggle" onClick={() => handleAccordion(1)}></span>
               </li>
               <li>
-                <Link href="/typography">Typography</Link>
+                <Link href="/author">Author</Link>
               </li>
-              <li>
-                <Link href="/categories">Politics</Link>
-              </li>
-              <li>
-                <Link href="/categories">Health</Link>
+              <li className="menu-item-has-children">
+                <Link href="#">More...</Link>
               </li>
               <li>
                 <Link href="/contact">Contact</Link>

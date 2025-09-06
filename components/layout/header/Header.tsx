@@ -1,10 +1,14 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from 'next/image';
+
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
 
 export default function Header({ scroll }: any) {
   const [isSearch, setIsSearch] = useState<number | null>(null);
+  const [categories, setCategories] = useState<any[]>([]);
 
   const handleSearch = (key: number) => {
     setIsSearch((prevState) => (prevState === key ? null : key));
@@ -16,6 +20,24 @@ export default function Header({ scroll }: any) {
     setDark(!isDark);
     !isDark ? document.body.classList.add("dark-mode") : document.body.classList.remove("dark-mode");
   };
+
+  // get the categories from the api
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(`${APP_URL}/blog/categories/`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
   return (
     <>
       <header id="header" className="d-lg-block d-none">
@@ -23,7 +45,7 @@ export default function Header({ scroll }: any) {
           <div className="align-items-center w-100">
             <h1 className="logo float-start navbar-brand">
               <Link href="/" className="logo">
-                Merinda
+                The Ascent of The Millions
               </Link>
             </h1>
             <div className="header-right float-end w-50">
@@ -97,51 +119,21 @@ export default function Header({ scroll }: any) {
                 <li className="menu-item-has-children">
                   <Link href="/categories">Categories</Link>
                   <ul className="sub-menu">
-                    <li>
-                      <Link href="/categories">Politics</Link>
-                    </li>
-                    <li>
-                      <Link href="/archive">Health</Link>
-                    </li>
-                    <li>
-                      <Link href="/categories">Design</Link>
-                    </li>
+                    {categories.map((category) => (
+                      <li key={category.id}>
+                        <Link href={`/categories/${category.id}`}>{category.name}</Link>
+                      </li>
+                    ))}
                   </ul>
                 </li>
                 <li>
-                  <Link href="/typography">Typography</Link>
-                </li>
-                <li>
-                  <Link href="/categories">Politics</Link>
-                </li>
-                <li>
-                  <Link href="/categories">Health</Link>
-                </li>
-                <li>
-                  <Link href="/categories">Design</Link>
-                </li>
-                <li>
-                  <Link href="/categories">Startups</Link>
-                </li>
-                <li>
-                  <Link href="/categories">Culture</Link>
-                </li>
-                <li>
-                  <Link href="/contact">Contact</Link>
+                  <Link href="/author">Author</Link>
                 </li>
                 <li className="menu-item-has-children">
                   <Link href="#">More...</Link>
-                  <ul className="sub-menu">
-                    <li>
-                      <Link href="/search">Search</Link>
-                    </li>
-                    <li>
-                      <Link href="/author">Author</Link>
-                    </li>
-                    <li>
-                      <Link href="/404">404</Link>
-                    </li>
-                  </ul>
+                </li>
+                <li>
+                  <Link href="/contact">Contact</Link>
                 </li>
               </ul>
               <span />

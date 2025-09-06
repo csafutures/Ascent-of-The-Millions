@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="row">
           <div className="col-md-6 copyright text-xs-center">
             <p>
-              Copyright 2025 Merinda inc. Designed by <a href="https://alithemes.com">AliThemes.com</a>
+              Copyright © {new Date().getFullYear()} The Ascent of The Millions. All Rights Reserved.
             </p>
           </div>
           <div className="col-md-6">

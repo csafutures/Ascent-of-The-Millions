@@ -1,9 +1,11 @@
 import Link from 'next/link'
-import blogData from "@/data/blog.json";
 import Image from 'next/image';
+import moment from 'moment';
 
-export default function Section3() {
-  const { todayHighlights } = blogData;
+
+export default function Section3({ MostViewed }: { MostViewed: any }) {
+  const { articles } = MostViewed;
+
 
   return (
     <>
@@ -12,33 +14,46 @@ export default function Section3() {
           <div className="row">
             <div className="col-md-10">
               <div className="row justify-content-between">
-                {todayHighlights.articles.map((article, index) => (
+                {articles.map((article: any, index: number) => (
                   <article key={index} className="col-md-6">
                     <div className="mb-3 d-flex row">
                       <figure className="col-md-5">
-                        <Link href={`/article/${article.id}`}>
+                        <Link href={`/article/${article.slug}`}>
                           <Image
-                            src={article.image}
+                            src={article.featured_image}
                             alt={article.title}
                             width={180}
                             height={180}
+                            className="lazy"
+                            loading="lazy"
+                            style={{ 
+                              objectFit: 'cover',
+                             
+                            }}
                           />
                         </Link>
                       </figure>
                       <div className="entry-content col-md-7 pl-md-0">
                         <h5 className="entry-title mb-3">
-                          <Link href={`/article/${article.id}`}>{article.title}</Link>
+                          <Link href={`/article/${article.slug}`}>{article.title}</Link>
                         </h5>
                         <div className="entry-excerpt">
-                          <p>{article.excerpt}</p>
+                          <p>
+                            {article.content.length > 50
+                              ? article.content.slice(0, 50) + "..."
+                              : article.content
+                            }
+                          </p>
                         </div>
                         <div className="entry-meta align-items-center">
-                          <Link href="/author">{article.author}</Link> in <Link href="/archive">{article.category}</Link>
+                          <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name}</Link> in <Link href={`/category/${article.category?.slug}`}>{article.category?.name}</Link>
                           <br />
-                          <span>{article.date}</span>
+                          <span>
+                            {moment(article.published_at).format("MMM DD, YYYY")}
+                          </span>
                           <span className="middotDivider" />
-                          <span className="readingTime" title={article.readTime}>
-                            {article.readTime}
+                           <span className="readingTime" title={article.read_time}>
+                            {article.read_time} min read
                           </span>
                           <span className="svgIcon svgIcon--star">
                             <svg className="svgIcon-use" width={15} height={15}>
@@ -54,14 +69,14 @@ export default function Section3() {
             </div>
             <div className="col-md-2">
               <div className="sidebar-widget ads">
-                <Link href={todayHighlights.ad.link}>
+                {/* <Link href={todayHighlights.ad.link}>
                   <Image
                     src={todayHighlights.ad.image}
                     alt="ads"
                     width={166}
                     height={346}
                   />
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>

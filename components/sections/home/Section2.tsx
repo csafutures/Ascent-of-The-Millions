@@ -2,15 +2,15 @@
 import Link from "next/link";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import blogData from "@/data/blog.json";
+import moment from 'moment';
+
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-export default function Section2() {
-  const { featuredSlider } = blogData;
+export default function Section2({ featuredSlider }: { featuredSlider: any }) {
 
   return (
     <>
@@ -31,26 +31,35 @@ export default function Section2() {
             navigation={false}
             className="blog-slider"
           >
-            {featuredSlider.articles.map((article, index) => (
+            {featuredSlider.AllArticle.map((article: any, index: number) => (
               <SwiperSlide key={index}>
                 <div className="blog-slider-card">
                   <div className="row justify-content-between post-has-bg ml-0 mr-0">
                     <div className="col-lg-6 col-md-8">
                       <div className="pt-5 pb-5 ps-md-5 pe-5 align-self-center">
-                        <div className="capsSubtle mb-2">{featuredSlider.title}</div>
+                        <div className="capsSubtle mb-2">
+                          {article.title}
+                        </div>
                         <h2 className="entry-title mb-3">
-                          <Link href={`/article/${article.id}`}>{article.title}</Link>
+                          <Link href={`/article/${article.slug}`}>{article.title}</Link>
                         </h2>
                         <div className="entry-excerpt">
-                          <p>{article.excerpt}</p>
+                          <p>
+                            {article.content.length > 300
+                              ? article.content.slice(0, 300) + "..."
+                              : article.content
+                            }
+                          </p>
                         </div>
                         <div className="entry-meta align-items-center">
-                          <Link href="/author">{article.author}</Link> in <Link href="/archive">{article.category}</Link>
+                          <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name}</Link> in <Link href={`/category/${article.category?.slug}`}>{article.category?.name}</Link>
                           <br />
-                          <span>{article.date}</span>
+                          <span>
+                            {moment(article.published_at).format("MMM DD, YYYY")}
+                          </span>
                           <span className="middotDivider" />
-                          <span className="readingTime" title={article.readTime}>
-                            {article.readTime}
+                          <span className="readingTime" title={article.read_time}>
+                            {article.read_time} min read
                           </span>
                           <span className="svgIcon svgIcon--star">
                             <svg className="svgIcon-use" width={15} height={15}>
@@ -63,7 +72,10 @@ export default function Section2() {
                     <div
                       className="col-lg-6 col-md-4 bgcover d-none d-md-block pl-md-0 ml-0"
                       style={{
-                        backgroundImage: `url(${article.image})`,
+                        backgroundImage: `url(${article.featured_image})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        minHeight: "350px",
                       }}
                     />
                   </div>

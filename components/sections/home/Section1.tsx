@@ -1,9 +1,8 @@
 import Link from "next/link";
 import Image from 'next/image';
-import blogData from "@/data/blog.json";
+import moment from 'moment';
 
-export default function Section1() {
-  const { featured, trending } = blogData;
+export default function Section1({ featured, trending }: { featured: any, trending: any }) {
 
   return (
     <>
@@ -19,10 +18,10 @@ export default function Section1() {
                 <div className="col-sm-12 col-md-6">
                   <article className="first mb-3">
                     <figure>
-                      <Link href={`/article/${featured.mainArticle.id}`}>
+                      <Link href={`/article/${featured.mainArticle.slug}`}>
                         <Image
                           className="lazy"
-                          src={featured.mainArticle.image}
+                          src={featured.mainArticle.featured_image}
                           alt={featured.mainArticle.title}
                           width={404}
                           height={227}
@@ -30,18 +29,29 @@ export default function Section1() {
                       </Link>
                     </figure>
                     <h3 className="entry-title mb-3">
-                      <Link href={`/article/${featured.mainArticle.id}`}>{featured.mainArticle.title}</Link>
+                      <Link href={`/article/${featured.mainArticle.slug}`}>
+                        {featured.mainArticle.title}
+                      </Link>
                     </h3>
+
                     <div className="entry-excerpt">
-                      <p>{featured.mainArticle.excerpt}</p>
+                      <p>
+                        {featured.mainArticle.content.length > 150
+                          ? featured.mainArticle.content.slice(0, 150) + "..."
+                          : featured.mainArticle.content
+                        }
+                      </p>
                     </div>
+
                     <div className="entry-meta align-items-center">
-                      <Link href="/author">{featured.mainArticle.author}</Link> in <Link href="/archive">{featured.mainArticle.category}</Link>
+                      <Link href={`/author/${featured.mainArticle.author?.id}`}>{featured.mainArticle.author?.user.first_name}</Link> in <Link href={`/category/${featured.mainArticle.category?.slug}`}>{featured.mainArticle.category?.name}</Link>
                       <br />
-                      <span>{featured.mainArticle.date}</span>
+                      <span>
+                        {moment(featured.mainArticle.published_at).format("MMM DD, YYYY")}
+                      </span>
                       <span className="middotDivider" />
-                      <span className="readingTime" title={featured.mainArticle.readTime}>
-                        {featured.mainArticle.readTime}
+                      <span className="readingTime" title={featured.mainArticle.read_time}>
+                        {featured.mainArticle.read_time} min read
                       </span>
                       <span className="svgIcon svgIcon--star">
                         <svg className="svgIcon-use" width={15} height={15}>
@@ -55,14 +65,14 @@ export default function Section1() {
                   </Link>
                 </div>
                 <div className="col-sm-12 col-md-6">
-                  {featured.sideArticles.map((article, index) => (
+                  {featured.sideArticles.map((article: any, index: number) => (
                     <article key={index}>
                       <div className="mb-3 d-flex row">
                         <figure className="col-4 col-md-4">
-                          <Link href={`/article/${article.id}`}>
+                          <Link href={`/article/${article?.slug}`}>
                             <Image
                               className="lazy"
-                              src={article.image}
+                              src={article.featured_image}
                               alt={article.title}
                               width={190}
                               height={165}
@@ -70,19 +80,21 @@ export default function Section1() {
                           </Link>
                         </figure>
                         <div className="entry-content col-8 col-md-8 pl-md-0">
-                          {article.tag && (
-                            <div className="capsSubtle mb-2">{article.tag}</div>
+                          {article.category && (
+                            <div className="capsSubtle mb-2">{article.category.name}</div>
                           )}
                           <h5 className="entry-title mb-3">
-                            <Link href={`/article/${article.id}`}>{article.title}</Link>
+                            <Link href={`/article/${article.slug}`}>{article.title}</Link>
                           </h5>
                           <div className="entry-meta align-items-center">
-                            <Link href="/author">{article.author}</Link> in <Link href="/archive">{article.category}</Link>
+                            <Link href={`/author/${article.author.id}`}>{article.author.user.first_name}</Link> in <Link href={`/archive/${article.category.slug}`}>{article.category.name}</Link>
                             <br />
-                            <span>{article.date}</span>
+                            <span>
+                              {moment(article.published_at).format("MMM DD")}
+                            </span>
                             <span className="middotDivider" />
-                            <span className="readingTime" title={article.readTime}>
-                              {article.readTime}
+                            <span className="readingTime" title={article.read_time}>
+                              {article.read_time} min read
                             </span>
                             <span className="svgIcon svgIcon--star">
                               <svg className="svgIcon-use" width={15} height={15}>
@@ -105,20 +117,22 @@ export default function Section1() {
                   <span>{trending.title}</span>
                 </h4>
                 <ol>
-                  {trending.articles.map((article, index) => (
+                  {trending.articles.map((article : any, index : number) => (
                     <li key={index} className="d-flex">
-                      <div className="post-count">{article.number}</div>
+                      <div className="post-count">{article.id}</div>
                       <div className="post-content">
                         <h5 className="entry-title mb-3">
-                          <Link href={`/article/${article.id}`}>{article.title}</Link>
+                          <Link href={`/article/${article.slug}`}>{article.title}</Link>
                         </h5>
                         <div className="entry-meta align-items-center">
-                          <Link href="/author">{article.author}</Link> in <Link href="/archive">{article.category}</Link>
+                          <Link href={`/author/${article.author.id}`}>{article.author.user.first_name}</Link> in <Link href={`/category/${article.category.slug}`}>{article.category.name}</Link>
                           <br />
-                          <span>{article.date}</span>
+                          <span>
+                            {moment(article.published_at).format("MMM DD")}
+                          </span>
                           <span className="middotDivider" />
-                          <span className="readingTime" title={article.readTime}>
-                            {article.readTime}
+                          <span className="readingTime" title={article.read_time}>
+                            {article.read_time} min read
                           </span>
                           <span className="svgIcon svgIcon--star">
                             <svg className="svgIcon-use" width={15} height={15}>
@@ -137,7 +151,7 @@ export default function Section1() {
                   </svg>
                 </Link>
               </div>
-            </div>
+            </div> 
             {/*end Trending*/}
           </div>
           {/*end row*/}
