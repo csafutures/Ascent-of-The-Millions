@@ -1,9 +1,7 @@
 "use client"
 import Link from 'next/link'
-import blogData from '@/data/blog.json';
 import Pagination from '@/components/elements/Pagination';
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import moment from 'moment';
 
 
@@ -101,7 +99,7 @@ export default function Section1() {
                   </p>
                 </div>
                 <div className="entry-meta align-items-center">
-                  <Link href={`/author/${featuredArticle?.author?.id}`}>{featuredArticle?.author?.user.first_name}</Link> in <Link href={`/category/${featuredArticle?.category?.slug}`}>{featuredArticle?.category?.name}</Link>
+                  <Link href={`/author/${featuredArticle?.author?.id}`}>{featuredArticle?.author?.user.first_name}</Link> in <Link href={`/categories/${featuredArticle?.category?.slug}`}>{featuredArticle?.category?.name}</Link>
                   <br />
                   <span>{moment(featuredArticle?.published_date).format("MMMM D, YYYY")}</span>
                   <span className="middotDivider" />
@@ -144,7 +142,7 @@ export default function Section1() {
                   </p>
                 </div>
                 <div className="entry-meta align-items-center">
-                  <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name}</Link> in <Link href={`/category/${article.category?.slug}`}>{article.category?.name}</Link>
+                  <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name}</Link> in <Link href={`/categories/${article.category?.slug}`}>{article.category?.name}</Link>
                   <br />
                   <span>
                     {moment(article.published_at).format("MMM DD, YYYY")}
@@ -169,21 +167,6 @@ export default function Section1() {
           </div>
         </div>
         {/*content-widget*/}
-      </div>
-      <div className="content-widget">
-        <div className="container">
-          <div className="sidebar-widget ads">
-            <Link href="#">
-              <Image
-                src="/assets/images/ads/ads-2.png"
-                alt="ads"
-                width={600}
-                height={71}
-              />
-            </Link>
-          </div>
-          <div className="hr" />
-        </div>
       </div>
       {/*content-widget*/}
     </>

@@ -90,7 +90,7 @@ export default function Section1({ article }: { article: any }) {
                   }}
                 />
               </Link>
-              <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name}</Link> in <Link href={`/category/${article.category?.slug}`}>{article.category?.name}</Link>
+              <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name}</Link> in <Link href={`/categories/${article.category?.slug}`}>{article.category?.name}</Link>
               <br />
               <span>
                 {moment(article.published_date).format("MMM DD, YYYY")}
@@ -179,7 +179,7 @@ export default function Section1({ article }: { article: any }) {
             <div className="tags-wrap heading">
 
               <span className="tags">
-                <Link href={`/category/${article.category?.slug}`} rel="tag">
+                <Link href={`/categories/${article.category?.slug}`} rel="tag">
                   {article.category?.name}
                 </Link>
 

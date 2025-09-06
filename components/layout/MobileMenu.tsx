@@ -136,21 +136,19 @@ export default function MobileMenu({ isMobileMenu, handleMobileMenu }: MobileMen
                 <ul className="sub-menu">
                   {categories?.map((category) => (
                     <li key={category.id}>
-                      <Link href={`/categories/${category.id}`}>{category.name}</Link>
+                      <Link href={`/categories/${category.slug}`}>{category.name}</Link>
                     </li>
                   ))}
                 </ul>
                 <span className="sub-menu-toggle" onClick={() => handleAccordion(1)}></span>
               </li>
               <li>
-                <Link href="/author">Author</Link>
+                <Link href="/contact">Contact</Link>
               </li>
               <li className="menu-item-has-children">
                 <Link href="#">More...</Link>
               </li>
-              <li>
-                <Link href="/contact">Contact</Link>
-              </li>
+
             </ul>
           </nav>
         </div>

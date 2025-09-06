@@ -1,6 +1,9 @@
 "use client";
 import { useState, FormEvent } from "react";
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
+
+
 export default function Section1() {
   const [formData, setFormData] = useState({
     name: "",
@@ -30,7 +33,7 @@ export default function Section1() {
     setSubmitStatus({ type: null, message: "" });
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch(`${APP_URL}/author/send-message/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,16 +83,18 @@ export default function Section1() {
               <h4 className="spanborder">
                 <span>Contact details</span>
               </h4>
-              <p>Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Praesent commodo cursus magna, vel scelerisque nisl.</p>
+              <p>
+                If you have any questions, feel free to reach out to us using the contact information below or by filling out the contact form. We're here to help and look forward to hearing from you!
+              </p>
               <div className="sidebar-widget widget-about">
                 <p>
-                  <i className="icon-map" /> 423B, Wordwide Country, USA
+                  <i className="icon-map" /> USA
                 </p>
                 <p>
-                  <i className="icon-paper-plane" /> alithemes@gmail.com
+                  <i className="icon-paper-plane" /> info@theascentofthemillions.org
                 </p>
                 <p>
-                  <i className="icon-phone" /> +91-234-567-8900
+                  <i className="icon-phone" /> +250-787-468-002
                 </p>
               </div>
             </div>
@@ -97,7 +102,9 @@ export default function Section1() {
               <h4 className="spanborder">
                 <span>Get in touch</span>
               </h4>
-              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur amet fermentum. Sed posuere consectetur est at lobortis.</p>
+              <p>
+                Use the form below to send us a message and we will get back to you as soon as possible.
+              </p>
               <form onSubmit={handleSubmit} className="form-contact">
                 {submitStatus.type && (
                   <div className={`alert alert-${submitStatus.type === 'success' ? 'success' : 'danger'} mb-4`}>

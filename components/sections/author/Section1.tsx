@@ -1,23 +1,68 @@
 "use client";
 import Link from 'next/link'
-import blogData from '@/data/blog.json';
 import Pagination from '@/components/elements/Pagination';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import moment from 'moment';
+
+
+import { useParams } from 'next/navigation'
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
 
 export default function Section1() {
-  const { RyanMarkPosts, hightlightPosts } = blogData;
-  const articlesPerPage = 5;
+  const [authorProfile, setAuthorProfile] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+
+  const params = useParams();
+  const authorId = params.id as string;
+
+  // useEffect to fetch the author's profile from the API if needed
+  useEffect(() => {
+    const fetchAuthorProfile = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`${APP_URL}/blog/authors/${authorId}/`);
+        const data = await response.json();
+        setAuthorProfile(data);
+      } catch (error) {
+        console.error("Error fetching author profile:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAuthorProfile();
+  }, [authorId]);
+
+
+  const articlesPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(RyanMarkPosts.articles.length / articlesPerPage);
+  const totalPages = Math.ceil(authorProfile?.posts.length / articlesPerPage);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
+
+
   const startIdx = (currentPage - 1) * articlesPerPage;
   const endIdx = startIdx + articlesPerPage;
-  const paginatedArticles = RyanMarkPosts.articles.slice(startIdx, endIdx);
+  const paginatedArticles = authorProfile?.posts.slice(startIdx, endIdx);
+
+  // filter through the posts to only get the ones with popular=true
+  const highlightPosts = {
+    title: "Popular Posts",
+    articles: authorProfile?.posts.filter((post: any) => post.popular).slice(0, 5) || [],
+  };
+
+  if (loading) {
+    return <div
+      className='justify-content-center align-items-center'
+      style={{ height: '50vh', display: 'flex' }}>
+      <span>Loading...</span>
+    </div>;
+  }
 
   return (
     <>
@@ -30,29 +75,35 @@ export default function Section1() {
                   <div className="author-img">
                     <Image
                       alt="author avatar"
-                      src="/assets/images/author-avata-1.jpg"
+                      src={authorProfile.image}
                       className="avatar"
                       width={106}
                       height={106}
+                      style={{ objectFit: 'cover' }}
                     />
                   </div>
                   <div className="author-content">
                     <div className="top-author">
                       <h5 className="heading-font">
-                        <Link href="/author" title="Ryan" rel="author">
-                          Ryan Mark
+                        <Link href={`/author/${authorProfile?.id}`} title={`${authorProfile?.first_name} ${authorProfile?.last_name}`} rel="author">
+                          {authorProfile?.first_name} {authorProfile?.last_name}
                         </Link>
                       </h5>
                     </div>
-                    <p className="d-none d-md-block">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse laoreet ut ligula et semper. Aenean consectetur, est id gravida venenatis.</p>
+                    <p className="d-none d-md-block" style={{
+                      whiteSpace: 'pre-line'
+                    }}>
+                      {authorProfile?.bio || 'This author has no bio'}
+                    </p>
+
                     <div className="content-social-author">
-                      <Link target="_blank" className="author-social" href="https://www.facebook.com">
+                      <Link target="_blank" className="author-social" href={authorProfile?.facebook || 'https://www.facebook.com'}>
                         Facebook
                       </Link>
-                      <Link target="_blank" className="author-social" href="https://www.twitter.com">
+                      <Link target="_blank" className="author-social" href={authorProfile?.twitter || 'https://www.twitter.com'}>
                         Twitter
                       </Link>
-                      <Link target="_blank" className="author-social" href="https://www.instagram.com">
+                      <Link target="_blank" className="author-social" href={authorProfile?.instagram || 'https://www.instagram.com'}>
                         Instagram
                       </Link>
                     </div>
@@ -62,24 +113,29 @@ export default function Section1() {
               <h4 className="spanborder">
                 <span>Latest Posts</span>
               </h4>
-              {paginatedArticles.map((article, idx) => (
+              {paginatedArticles?.map((article: any, idx: number) => (
                 <article key={idx} className="row justify-content-between mb-5 mr-0">
                   <div className="col-md-9 ">
                     <div className="align-self-center">
-                      {article.tag && <div className="capsSubtle mb-2">{article.tag}</div>}
+                      {article.slug && <div className="capsSubtle mb-2">{article.slug}</div>}
                       <h3 className="entry-title mb-3">
-                        <Link href={`/article/${article.id}`}>{article.title}</Link>
+                        <Link href={`/article/${article.slug}`}>{article.title}</Link>
                       </h3>
                       <div className="entry-excerpt">
-                        <p>{article.excerpt}</p>
+                        <p>
+                          {article.content.length > 150
+                            ? article.content.slice(0, 150) + "..."
+                            : article.content
+                          }
+                        </p>
                       </div>
                       <div className="entry-meta align-items-center">
-                        <Link href="/author">{article.author}</Link> in <Link href="/archive">{article.category}</Link>
+                        <Link href={`/author/${article.author.id}`}>{article.author.user.first_name}</Link> in <Link href={`/categories/${article.category.slug}`}>{article.category.name}</Link>
                         <br />
-                        <span>{article.date}</span>
+                        <span>{moment(article?.published_date).format("MMMM D, YYYY")}</span>
                         <span className="middotDivider" />
-                        <span className="readingTime" title={article.readTime}>
-                          {article.readTime}
+                        <span className="readingTime" title={article?.read_time}>
+                          {article?.read_time} min read
                         </span>
                         <span className="svgIcon svgIcon--star">
                           <svg className="svgIcon-use" width={15} height={15}>
@@ -92,7 +148,12 @@ export default function Section1() {
                   <div
                     className="col-md-3 bgcover"
                     style={{
-                      backgroundImage: `url(${article.image})`,
+                      backgroundImage: `url(${article.featured_image})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      minHeight: "200px",
+                      borderRadius: "8px",
+                      objectFit: 'cover',
                     }}
                   />
                 </article>
@@ -107,23 +168,25 @@ export default function Section1() {
             <div className="col-md-4 pl-md-5 sticky-sidebar">
               <div className="sidebar-widget latest-tpl-4">
                 <h5 className="spanborder widget-title">
-                  <span>{hightlightPosts.title}</span>
+                  <span>Popular Posts</span>
                 </h5>
                 <ol>
-                  {hightlightPosts.articles.map((article, index) => (
+                  {highlightPosts?.articles.map((article: any, index: number) => (
                     <li key={index} className="d-flex">
                       <div className="post-count">{(index + 1).toString().padStart(2, '0')}</div>
                       <div className="post-content">
                         <h5 className="entry-title mb-3">
-                          <Link href={`/article/${article.id}`}>{article.title}</Link>
+                          <Link href={`/article/${article.slug}`}>{article.title}</Link>
                         </h5>
                         <div className="entry-meta align-items-center">
-                          <Link href="/author">{article.author}</Link> in <Link href="/archive">{article.category}</Link>
+                          <Link href={`/author/${article.author.id}`}>{article.author.user.first_name}</Link> in <Link href={`/categories/${article.category.slug}`}>{article.category.name}</Link>
                           <br />
-                          <span>{article.date}</span>
+                          <span>
+                            {moment(article.published_at).format("MMM DD")}
+                          </span>
                           <span className="middotDivider" />
-                          <span className="readingTime" title={article.readTime}>
-                            {article.readTime}
+                          <span className="readingTime" title={article.read_time}>
+                            {article.read_time} min read
                           </span>
                           <span className="svgIcon svgIcon--star">
                             <svg className="svgIcon-use" width={15} height={15}>
@@ -142,21 +205,7 @@ export default function Section1() {
         </div>
         {/*content-widget*/}
       </div>
-      <div className="content-widget">
-        <div className="container">
-          <div className="sidebar-widget ads">
-            <Link href="#">
-              <Image
-                src="/assets/images/ads/ads-2.png"
-                alt="ads"
-                width={600}
-                height={71}
-              />
-            </Link>
-          </div>
-          <div className="hr" />
-        </div>
-      </div>
+
       {/*content-widget*/}
     </>
   );
