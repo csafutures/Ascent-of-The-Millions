@@ -12,8 +12,18 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
 
 
 export default function Section1() {
+  interface ArticleData {
+    category_name: string;
+    posts: {
+      results: any[]; // 👈 instead of a full Post type
+      [key: string]: any;
+    };
+    [key: string]: any;
+  }
+
+
   const [loading, setLoading] = useState(true);
-  const [articleData, setArticleData] = useState(null);
+  const [articleData, setArticleData] = useState<ArticleData | null>(null);
   const { slug } = useParams<{ slug: string }>();
 
 

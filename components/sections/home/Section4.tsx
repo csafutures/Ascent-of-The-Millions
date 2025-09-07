@@ -1,9 +1,5 @@
 "use client"
 import Link from 'next/link'
-import blogData from "@/data/blog.json"
-import Pagination from '@/components/elements/Pagination'
-import Image from 'next/image'
-import { useState } from 'react'
 import moment from 'moment';
 
 
@@ -11,19 +7,8 @@ import moment from 'moment';
 export default function Section4({ MostRecent, Popular }: { MostRecent: any, Popular: any }) {
 
 
-  const [currentSidePage, setCurrentSidePage] = useState(1);
-  const itemsPerPage = 4; // Hiển thị 4 bài viết trên mỗi trang
-
-  const handleSidePageChange = (page: number) => {
-    setCurrentSidePage(page);
-  };
 
   // Tính toán các bài viết cần hiển thị cho trang hiện tại
-  const startIndex = (currentSidePage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentSideArticles = MostRecent.articles.slice(startIndex, endIndex);
-  const totalSidePages = Math.ceil(MostRecent.articles.length / itemsPerPage);
-
   return (
     <>
       <div className="content-widget">
@@ -121,7 +106,7 @@ export default function Section4({ MostRecent, Popular }: { MostRecent: any, Pop
         </div>
         {/*content-widget*/}
       </div>
-       <div className="content-widget">
+      <div className="content-widget">
         <div className="container">
           <div className="sidebar-widget ads">
             {/* <Link href={mostRecent.ad.link}>
