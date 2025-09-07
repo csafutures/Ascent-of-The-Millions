@@ -90,14 +90,14 @@ export default function Header({ scroll }: any) {
                     </Link>
                   </li>
                 </ul>
-                <Link className="author-avatar" href="/author">
+                {/* <Link className="author-avatar" href="/author">
                   <Image
                     src="/assets/images/author-avata-1.jpg"
                     alt="author"
                     width={50}
                     height={50}
                   />
-                </Link>
+                </Link> */}
               </div>
               <form action="/search" method="get" className={`search-form d-lg-flex float-end ${isSearch == 1 ? "open-search" : ""}`}>
                 <a href="#" className="searh-toggle" onClick={() => handleSearch(1)}>

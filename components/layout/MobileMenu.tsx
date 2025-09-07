@@ -64,14 +64,14 @@ export default function MobileMenu({ isMobileMenu, handleMobileMenu }: MobileMen
                 M
               </Link>
             </h1>
-            <Link href="#" className="author-avatar">
+            {/* <Link href="#" className="author-avatar">
               <Image
                 src="/assets/images/author-avata-1.jpg"
                 alt="Author avatar"
                 width={50}
                 height={50}
               />
-            </Link>
+            </Link> */}
             <Link href="#" className="dark-light-toggle mt-05" onClick={handleDark}>
               <i className="icon-adjust" />
             </Link>
