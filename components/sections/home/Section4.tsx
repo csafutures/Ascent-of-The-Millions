@@ -6,8 +6,6 @@ import moment from 'moment';
 
 export default function Section4({ MostRecent, Popular }: { MostRecent: any, Popular: any }) {
 
-
-
   // Tính toán các bài viết cần hiển thị cho trang hiện tại
   return (
     <>

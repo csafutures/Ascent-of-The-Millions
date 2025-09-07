@@ -46,6 +46,18 @@ export default function Home() {
 						Loading...
 					</div>
 				)}
+
+				{/* if the Home data == Undefined or null, show no content at the moment */}
+				{
+					!isLoading && !homeData && (
+						<div
+							className='justify-content-center align-items-center'
+						>
+							No content available at the moment.
+						</div>
+					)
+				}
+
 				{!isLoading && homeData && (
 					<>
 						<Section1

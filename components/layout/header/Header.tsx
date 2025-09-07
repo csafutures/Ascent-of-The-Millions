@@ -120,7 +120,7 @@ export default function Header({ scroll }: any) {
                   <Link href="/article">Articles</Link>
                 </li>
                 <li className="menu-item-has-children">
-                  <Link href="/categories">Categories</Link>
+                  <Link href="#">Categories</Link>
                   <ul className="sub-menu">
                     {categories.map((category) => (
                       <li key={category.id}>

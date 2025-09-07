@@ -11,7 +11,7 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
 export default function Home() {
 	const [loading, setLoading] = useState(true);
 	const [articleData, setArticleData] = useState(null);
-  	const { slug } = useParams<{ slug: string }>();
+	const { slug } = useParams<{ slug: string }>();
 
 	useEffect(() => {
 		const fetchArticleData = async () => {
