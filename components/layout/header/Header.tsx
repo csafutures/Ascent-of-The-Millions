@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Image from 'next/image';
 
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
