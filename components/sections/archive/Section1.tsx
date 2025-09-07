@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Pagination from '@/components/elements/Pagination';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
+import DOMPurify from "dompurify";
 
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
@@ -101,12 +102,20 @@ export default function Section1() {
                     <Link href={`/article/${featuredArticle?.slug}`}>{featuredArticle?.title}</Link>
                   </h2>
                   <div className="entry-excerpt">
-                    <p>
-                      {featuredArticle?.content.length > 300
-                        ? featuredArticle?.content.slice(0, 300) + "..."
-                        : featuredArticle?.content
-                      }
-                    </p>
+
+                    <div className="blog-content">
+                      {featuredArticle?.content ? (
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(
+                              featuredArticle.content.length > 300
+                                ? featuredArticle.content.slice(0, 300) + "..."
+                                : featuredArticle.content
+                            ),
+                          }}
+                        />
+                      ) : null}
+                    </div>s
                   </div>
                   <div className="entry-meta align-items-center">
                     <Link href={`/author/${featuredArticle?.author?.id}`}>{featuredArticle?.author?.user.first_name}</Link> in <Link href={`/categories/${featuredArticle?.category?.slug}`}>{featuredArticle?.category?.name}</Link>

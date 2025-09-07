@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image';
 import moment from 'moment';
 import { useState } from 'react';
+import DOMPurify from "dompurify";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -142,14 +143,24 @@ export default function Section1({ article }: { article: any }) {
             </div>
           </div>
 
-          <div className="excerpt mb-4 ">
-            <p>{article.title}</p>
-          </div>
+          
 
           <div className="entry-main-content dropcap">
-            <p style={{ whiteSpace: "pre-line" }}>
-              {article.content}
-            </p>
+              {/* <div
+                className="blog-content"
+                dangerouslySetInnerHTML={{ __html: article.content }}
+              /> */}
+              <div className="blog-content">
+                {article?.content ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        article.content
+                      ),
+                    }}
+                  />
+                ) : null}
+              </div>
 
 
             {/*Begin Subcrible*/}

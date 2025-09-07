@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import moment from 'moment';
+import DOMPurify from "dompurify";
 
 
 // Import Swiper styles
@@ -44,12 +45,19 @@ export default function Section2({ featuredSlider }: { featuredSlider: any }) {
                           <Link href={`/article/${article.slug}`}>{article.title}</Link>
                         </h2>
                         <div className="entry-excerpt">
-                          <p>
-                            {article.content.length > 300
-                              ? article.content.slice(0, 300) + "..."
-                              : article.content
-                            }
-                          </p>
+                            <div className="blog-content">
+                              {article?.content ? (
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(
+                                      article.content.length > 300
+                                        ? article.content.slice(0, 300) + "..."
+                                        : article.content
+                                    ),
+                                  }}
+                                />
+                              ) : null}
+                            </div>
                         </div>
                         <div className="entry-meta align-items-center">
                           <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name}</Link> in <Link href={`/categories/${article.category?.slug}`}>{article.category?.name}</Link>

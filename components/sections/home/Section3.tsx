@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image';
 import moment from 'moment';
+import DOMPurify from "dompurify";
 
 
 export default function Section3({ MostViewed }: { MostViewed: any }) {
@@ -26,9 +27,9 @@ export default function Section3({ MostViewed }: { MostViewed: any }) {
                             height={180}
                             className="lazy"
                             loading="lazy"
-                            style={{ 
+                            style={{
                               objectFit: 'cover',
-                             
+
                             }}
                           />
                         </Link>
@@ -38,12 +39,19 @@ export default function Section3({ MostViewed }: { MostViewed: any }) {
                           <Link href={`/article/${article.slug}`}>{article.title}</Link>
                         </h5>
                         <div className="entry-excerpt">
-                          <p>
-                            {article.content.length > 50
-                              ? article.content.slice(0, 50) + "..."
-                              : article.content
-                            }
-                          </p>
+                            <div className="blog-content">
+                              {article?.content ? (
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(
+                                      article.content.length > 50
+                                        ? article.content.slice(0, 50) + "..."
+                                        : article.content
+                                    ),
+                                  }}
+                                />
+                              ) : null}
+                            </div>
                         </div>
                         <div className="entry-meta align-items-center">
                           <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name}</Link> in <Link href={`/categories/${article.category?.slug}`}>{article.category?.name}</Link>
@@ -52,7 +60,7 @@ export default function Section3({ MostViewed }: { MostViewed: any }) {
                             {moment(article.published_at).format("MMM DD, YYYY")}
                           </span>
                           <span className="middotDivider" />
-                           <span className="readingTime" title={article.read_time}>
+                          <span className="readingTime" title={article.read_time}>
                             {article.read_time} min read
                           </span>
                           <span className="svgIcon svgIcon--star">

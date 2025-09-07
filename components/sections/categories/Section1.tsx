@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import moment from 'moment';
+import DOMPurify from "dompurify";
 
 
 import { useParams } from 'next/navigation'
@@ -91,10 +92,23 @@ export default function Section1() {
                   </h1>
                   <div className="entry-excerpt">
                     <p>
-                      {mainArticle?.content.length > 300
+                      {/* {mainArticle?.content.length > 300
                         ? mainArticle?.content.slice(0, 300) + "..."
                         : mainArticle?.content
-                      }
+                      } */}
+                      <div className="blog-content">
+                        {mainArticle?.content ? (
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: DOMPurify.sanitize(
+                                mainArticle.content.length > 150
+                                  ? mainArticle.content.slice(0, 150) + "..."
+                                  : mainArticle.content
+                              ),
+                            }}
+                          />
+                        ) : null}
+                      </div>
                     </p>
                   </div>
                   <div className="entry-meta align-items-center">
@@ -130,12 +144,23 @@ export default function Section1() {
                           <Link href={`/article/${article.slug}`}>{article.title}</Link>
                         </h3>
                         <div className="entry-excerpt">
-                          <p>
-                            {article?.content.length > 300
+                            {/* {article?.content.length > 300
                               ? article?.content.slice(0, 300) + "..."
                               : article?.content
-                            }
-                          </p>
+                            } */}
+                            <div className="blog-content">
+                              {article?.content ? (
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(
+                                      article.content.length > 150
+                                        ? article.content.slice(0, 150) + "..."
+                                        : article.content
+                                    ),
+                                  }}
+                                />
+                              ) : null}
+                            </div>
                         </div>
                         <div className="entry-meta align-items-center">
                           <Link href={`/author/${article?.author?.id}`}>{article?.author?.user.first_name}</Link> in <Link href={`/categories/${article?.category?.slug}`}>{article?.category?.name}</Link>
@@ -177,7 +202,7 @@ export default function Section1() {
                   <ol>
                     {
                       popularArticles?.map((article: any, index: number) => (
-                        <li className="d-flex">
+                        <li className="d-flex" key={index}>
                           <div className="post-count">
                             0{index + 1}
                           </div>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from 'next/image';
 import moment from 'moment';
+import DOMPurify from "dompurify";
 
 export default function Section1({ featured, trending }: { featured: any, trending: any }) {
   // Check if both featured and trending are undefined or empty
@@ -42,12 +43,19 @@ export default function Section1({ featured, trending }: { featured: any, trendi
                         </h3>
 
                         <div className="entry-excerpt">
-                          <p>
-                            {featured?.mainArticle?.content?.length > 150
-                              ? featured?.mainArticle?.content?.slice(0, 150) + "..."
-                              : featured?.mainArticle?.content
-                            }
-                          </p>
+                            <div className="blog-content">
+                              {featured?.mainArticle?.content ? (
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(
+                                      featured.mainArticle.content.length > 150
+                                        ? featured.mainArticle.content.slice(0, 150) + "..."
+                                        : featured.mainArticle.content
+                                    ),
+                                  }}
+                                />
+                              ) : null}
+                            </div>
                         </div>
 
                         <div className="entry-meta align-items-center">
