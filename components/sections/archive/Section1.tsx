@@ -108,14 +108,14 @@ export default function Section1() {
                         <div
                           dangerouslySetInnerHTML={{
                             __html: DOMPurify.sanitize(
-                              featuredArticle.content.length > 300
-                                ? featuredArticle.content.slice(0, 300) + "..."
-                                : featuredArticle.content
+                              featuredArticle?.content.length > 300
+                                ? featuredArticle?.content.slice(0, 300) + "..."
+                                : featuredArticle?.content
                             ),
                           }}
                         />
                       ) : null}
-                    </div>s
+                    </div>
                   </div>
                   <div className="entry-meta align-items-center">
                     <Link href={`/author/${featuredArticle?.author?.id}`}>{featuredArticle?.author?.user.first_name}</Link> in <Link href={`/categories/${featuredArticle?.category?.slug}`}>{featuredArticle?.category?.name}</Link>
