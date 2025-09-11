@@ -4,6 +4,7 @@ import Pagination from '@/components/elements/Pagination';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import DOMPurify from "dompurify";
+import truncate from "html-truncate";
 
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
@@ -108,9 +109,7 @@ export default function Section1() {
                         <div
                           dangerouslySetInnerHTML={{
                             __html: DOMPurify.sanitize(
-                              featuredArticle?.content.length > 300
-                                ? featuredArticle?.content.slice(0, 300) + "..."
-                                : featuredArticle?.content
+                              truncate(featuredArticle?.content, 300, { ellipsis: "..." })
                             ),
                           }}
                         />
@@ -156,12 +155,13 @@ export default function Section1() {
                   <Link href={`/article/${article.slug}`}>{article.title}</Link>
                 </h3>
                 <div className="entry-excerpt">
-                  <p>
-                    {article.content.length > 200
-                      ? article.content.slice(0, 200) + "..."
-                      : article.content
-                    }
-                  </p>
+                  <div
+                          dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(
+                              truncate(article?.content, 250, { ellipsis: " ..." })
+                            ),
+                          }}
+                        />
                 </div>
                 <div className="entry-meta align-items-center">
                   <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name} {article.author?.user.last_name}</Link> in <Link href={`/categories/${article.category?.slug}`}>{article.category?.name}</Link>

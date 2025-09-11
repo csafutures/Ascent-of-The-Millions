@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image';
 import moment from 'moment';
 import DOMPurify from "dompurify";
+import truncate from "html-truncate";
 
 
 export default function Section3({ MostViewed }: { MostViewed: any }) {
@@ -42,14 +43,12 @@ export default function Section3({ MostViewed }: { MostViewed: any }) {
                             <div className="blog-content">
                               {article?.content ? (
                                 <div
-                                  dangerouslySetInnerHTML={{
-                                    __html: DOMPurify.sanitize(
-                                      article.content.length > 50
-                                        ? article.content.slice(0, 50) + "..."
-                                        : article.content
-                                    ),
-                                  }}
-                                />
+                                    dangerouslySetInnerHTML={{
+                                      __html: DOMPurify.sanitize(
+                                        truncate(article?.content, 70, { ellipsis: "..." })
+                                      ),
+                                    }}
+                                  />
                               ) : null}
                             </div>
                         </div>

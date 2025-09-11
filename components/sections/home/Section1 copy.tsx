@@ -92,6 +92,7 @@ export default function Section1({ featured, trending }: { featured: any, trendi
                                 alt={article?.title}
                                 width={190}
                                 height={165}
+                                style={{ objectFit: 'cover', maxWidth: '100%' }}
                               />
                             </Link>
                           </figure>

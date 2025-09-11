@@ -2,6 +2,9 @@
 import Link from 'next/link'
 import moment from 'moment';
 import DOMPurify from "dompurify";
+import truncate from "html-truncate";
+
+
 
 export default function Section4({ MostRecent, Popular }: { MostRecent: any, Popular: any }) {
 
@@ -27,14 +30,12 @@ export default function Section4({ MostRecent, Popular }: { MostRecent: any, Pop
                           <div className="blog-content">
                             {article?.content ? (
                               <div
-                                dangerouslySetInnerHTML={{
-                                  __html: DOMPurify.sanitize(
-                                    article.content.length > 150
-                                      ? article.content.slice(0, 150) + "..."
-                                      : article.content
-                                  ),
-                                }}
-                              />
+                                    dangerouslySetInnerHTML={{
+                                      __html: DOMPurify.sanitize(
+                                        truncate(article.content, 150, { ellipsis: "..." })
+                                      ),
+                                    }}
+                                  />
                             ) : null}
                           </div>
                       </div>

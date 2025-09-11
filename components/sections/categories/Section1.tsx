@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import moment from 'moment';
 import DOMPurify from "dompurify";
+import truncate from "html-truncate";
 
 
 import { useParams } from 'next/navigation'
@@ -104,9 +105,7 @@ export default function Section1() {
                               <div
                                 dangerouslySetInnerHTML={{
                                   __html: DOMPurify.sanitize(
-                                    mainArticle.content.length > 150
-                                      ? mainArticle.content.slice(0, 150) + "..."
-                                      : mainArticle.content
+                                    truncate(mainArticle?.content, 300, { ellipsis: "..." })
                                   ),
                                 }}
                               />
@@ -159,9 +158,7 @@ export default function Section1() {
                               <div
                                 dangerouslySetInnerHTML={{
                                   __html: DOMPurify.sanitize(
-                                    article.content.length > 150
-                                      ? article.content.slice(0, 150) + "..."
-                                      : article.content
+                                    truncate(article?.content, 150, { ellipsis: "..." })
                                   ),
                                 }}
                               />
