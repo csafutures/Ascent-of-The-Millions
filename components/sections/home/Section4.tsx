@@ -84,7 +84,7 @@ export default function Section4({ MostRecent, Popular }: { MostRecent: any, Pop
                           <Link href={`/article/${article.slug}`}>{article.title}</Link>
                         </h5>
                         <div className="entry-meta align-items-center">
-                          <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name}</Link> in <Link href={`/categories/${article.category?.slug}`}>{article.category?.name}</Link>
+                          <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name} {article.author?.user.last_name}</Link> in <Link href={`/categories/${article.category?.slug}`}>{article.category?.name}</Link>
                           <br />
                           <span>
                             {moment(article.published_at).format("MMM DD, YYYY")}

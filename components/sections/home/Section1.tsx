@@ -60,7 +60,7 @@ export default function Section1({ featured, trending }: { featured: any, trendi
                         </div>
 
                         <div className="entry-meta align-items-center">
-                          <Link href={`/author/${featured?.mainArticle?.author?.id}`}>{featured?.mainArticle?.author?.user.first_name}</Link> in <Link href={`/categories/${featured?.mainArticle?.category?.slug}`}>{featured?.mainArticle?.category?.name}</Link>
+                          <Link href={`/author/${featured?.mainArticle?.author?.id}`}>{featured?.mainArticle?.author?.user.first_name} {featured?.mainArticle?.author?.user.last_name}</Link> in <Link href={`/categories/${featured?.mainArticle?.category?.slug}`}>{featured?.mainArticle?.category?.name}</Link>
                           <br />
                           <span>
                             {moment(featured?.mainArticle?.published_date).format("MMM DD, YYYY")}
@@ -104,7 +104,7 @@ export default function Section1({ featured, trending }: { featured: any, trendi
                               <Link href={`/article/${article?.slug}`}>{article?.title}</Link>
                             </h5>
                             <div className="entry-meta align-items-center">
-                              <Link href={`/author/${article?.author?.id}`}>{article?.author?.user?.first_name}</Link> in <Link href={`/categories/${article?.category?.slug}`}>{article?.category?.name}</Link>
+                              <Link href={`/author/${article?.author?.id}`}>{article?.author?.user?.first_name} {article?.author?.user?.last_name}</Link> in <Link href={`/categories/${article?.category?.slug}`}>{article?.category?.name}</Link>
                               <br />
                               <span>
                                 {moment(article?.published_at).format("MMM DD")}
@@ -142,7 +142,7 @@ export default function Section1({ featured, trending }: { featured: any, trendi
                             <Link href={`/article/${article?.slug}`}>{article?.title}</Link>
                           </h5>
                           <div className="entry-meta align-items-center">
-                            <Link href={`/author/${article?.author.id}`}>{article?.author.user.first_name}</Link> in <Link href={`/categories/${article?.category.slug}`}>{article?.category.name}</Link>
+                            <Link href={`/author/${article?.author.id}`}>{article?.author.user.first_name} {article?.author.user.last_name}</Link> in <Link href={`/categories/${article?.category.slug}`}>{article?.category.name}</Link>
                             <br />
                             <span>
                               {moment(article?.published_at).format("MMM DD")}

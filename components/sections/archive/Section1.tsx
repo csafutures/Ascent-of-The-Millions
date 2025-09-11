@@ -118,7 +118,7 @@ export default function Section1() {
                     </div>
                   </div>
                   <div className="entry-meta align-items-center">
-                    <Link href={`/author/${featuredArticle?.author?.id}`}>{featuredArticle?.author?.user.first_name}</Link> in <Link href={`/categories/${featuredArticle?.category?.slug}`}>{featuredArticle?.category?.name}</Link>
+                    <Link href={`/author/${featuredArticle?.author?.id}`}>{featuredArticle?.author?.user.first_name} {featuredArticle?.author?.user.last_name}</Link> in <Link href={`/categories/${featuredArticle?.category?.slug}`}>{featuredArticle?.category?.name}</Link>
                     <br />
                     <span>{moment(featuredArticle?.published_date).format("MMMM D, YYYY")}</span>
                     <span className="middotDivider" />
@@ -164,7 +164,7 @@ export default function Section1() {
                   </p>
                 </div>
                 <div className="entry-meta align-items-center">
-                  <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name}</Link> in <Link href={`/categories/${article.category?.slug}`}>{article.category?.name}</Link>
+                  <Link href={`/author/${article.author?.id}`}>{article.author?.user.first_name} {article.author?.user.last_name}</Link> in <Link href={`/categories/${article.category?.slug}`}>{article.category?.name}</Link>
                   <br />
                   <span>
                     {moment(article.published_at).format("MMM DD, YYYY")}

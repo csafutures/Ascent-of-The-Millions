@@ -123,7 +123,7 @@ export default function Section1() {
                             height={40}
                           />
                         </Link>
-                        <Link href={`/author/${mainArticle?.author?.id}`}>{mainArticle?.author?.user.first_name}</Link> in <Link href={`/categories/${mainArticle?.category?.slug}`}>{mainArticle?.category?.name}</Link>
+                        <Link href={`/author/${mainArticle?.author?.id}`}>{mainArticle?.author?.user.first_name} {mainArticle?.author?.user.last_name}</Link> in <Link href={`/categories/${mainArticle?.category?.slug}`}>{mainArticle?.category?.name}</Link>
                         <br />
                         <span>{moment(mainArticle?.date).format("MMMM D")}</span>
                         <span className="middotDivider" />
@@ -169,7 +169,7 @@ export default function Section1() {
                           </div>
                         </div>
                         <div className="entry-meta align-items-center">
-                          <Link href={`/author/${article?.author?.id}`}>{article?.author?.user.first_name}</Link> in <Link href={`/categories/${article?.category?.slug}`}>{article?.category?.name}</Link>
+                          <Link href={`/author/${article?.author?.id}`}>{article?.author?.user.first_name} {article?.author?.user.last_name}</Link> in <Link href={`/categories/${article?.category?.slug}`}>{article?.category?.name}</Link>
                           <br />
                           <span>{moment(article?.published_date).format("MMMM D, YYYY")}</span>
                           <span className="middotDivider" />
@@ -224,7 +224,7 @@ export default function Section1() {
                               </Link>
                             </h5>
                             <div className="entry-meta align-items-center">
-                              <Link href={`/author/${article?.author?.id}`}>{article?.author?.user.first_name}</Link> in <Link href={`/categories/${article?.category?.slug}`}>{article?.category?.name}</Link>
+                              <Link href={`/author/${article?.author?.id}`}>{article?.author?.user.first_name} {article?.author?.user.last_name}</Link> in <Link href={`/categories/${article?.category?.slug}`}>{article?.category?.name}</Link>
                               <br />
                               <span>
                                 {moment(article.published_at).format("MMM DD, YYYY")}
