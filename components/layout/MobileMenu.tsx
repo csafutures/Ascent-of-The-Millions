@@ -125,6 +125,9 @@ export default function MobileMenu({ isMobileMenu, handleMobileMenu }: MobileMen
               <li className="current-menu-item">
                 <Link href="/">Home</Link>
               </li>
+              <li >
+                <Link href="/about">About</Link>
+              </li>
               <li>
                 <Link href="/article">Articles</Link>
               </li>
