@@ -91,11 +91,11 @@ export default function Section1() {
                   <i className="icon-map" /> USA
                 </p>
                 <p>
-                  <i className="icon-paper-plane" /> info@theascentofthemillions.org
+                  <i className="icon-paper-plane" /> info@ascentofthemillions.org
                 </p>
-                <p>
+                {/* <p>
                   <i className="icon-phone" /> +250-787-468-002
-                </p>
+                </p> */}
               </div>
             </div>
             <div className="col-md-6">
